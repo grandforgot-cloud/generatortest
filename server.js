@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.static("public"));
 
+// Подключение к SQL Server через .env
 const dbConfig = {
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
@@ -25,6 +26,8 @@ async function getPool() {
   return await sql.connect(dbConfig);
 }
 
+// ----------------- Маршруты -----------------
+
 // Регистрация
 app.post("/api/register", async (req, res) => {
   try {
@@ -35,6 +38,7 @@ app.post("/api/register", async (req, res) => {
     if (!["teacher", "student"].includes(role)) {
       return res.status(400).json({ message: "Неверная роль" });
     }
+
     const pool = await getPool();
     const exists = await pool.request()
       .input("username", sql.NVarChar, username)
@@ -88,73 +92,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-// Генерация теста через Groq API
-app.post("/api/generate-test", async (req, res) => {
-  try {
-    const { apiKey, topic, context, count, language, difficulty, qtype } = req.body;
-    if (!apiKey) return res.status(400).json({ message: "API-ключ Groq не указан" });
-    if (!topic) return res.status(400).json({ message: "Тема не указана" });
-
-    const prompt = `
-Создай учебный тест.
-Тема: ${topic}
-Контекст: ${context || "нет"}
-Количество вопросов: ${count || 5}
-Язык: ${language || "ru"}
-Сложность: ${difficulty || "medium"}
-Тип вопросов: ${qtype || "multiple_choice"}
-
-Верни строго JSON без markdown и лишнего текста.
-
-Формат:
-{
-  "title": "Название теста",
-  "topic": "${topic}",
-  "questions": [
-    {
-      "text": "Вопрос",
-      "options": ["Вариант 1", "Вариант 2", "Вариант 3", "Вариант 4"],
-      "correct": 0,
-      "hint": "Пояснение"
-    }
-  ]
-}
-`;
-
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.7,
-        response_format: { type: "json_object" }
-      })
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      return res.status(500).json({ message: data.error?.message || "Ошибка Groq API" });
-    }
-
-    let text = data.choices?.[0]?.message?.content || "";
-    text = text.replace(/```json/g, "").replace(/```/g, "").trim();
-    const test = JSON.parse(text);
-
-    if (!test.questions || !Array.isArray(test.questions)) {
-      return res.status(500).json({ message: "Groq вернул неверный формат теста" });
-    }
-
-    res.json(test);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Получить открытые тесты
+// Получение открытых тестов
 app.get("/api/tests", async (req, res) => {
   try {
     const pool = await getPool();
@@ -174,20 +112,22 @@ app.get("/api/tests", async (req, res) => {
   }
 });
 
-// Остальные маршруты (my-tests, add test, test by id/code, results)
-app.get("/api/my-tests/:teacherId", async (req, res) => { /* ... оставляем без изменений ... */ });
-app.post("/api/tests", async (req, res) => { /* ... оставляем без изменений ... */ });
-app.get("/api/test/:id", async (req, res) => { /* ... оставляем без изменений ... */ });
-app.get("/api/test/code/:code", async (req, res) => { /* ... оставляем без изменений ... */ });
-app.post("/api/results", async (req, res) => { /* ... оставляем без изменений ... */ });
-app.get("/api/results/teacher/:teacherId", async (req, res) => { /* ... оставляем без изменений ... */ });
-app.get("/api/results/student/:studentId", async (req, res) => { /* ... оставляем без изменений ... */ });
-app.patch("/api/tests/:id/open", async (req, res) => { /* ... оставляем без изменений ... */ });
+// Остальные маршруты оставляем как есть
+app.get("/api/my-tests/:teacherId", async (req, res) => { /* ... */ });
+app.post("/api/tests", async (req, res) => { /* ... */ });
+app.get("/api/test/:id", async (req, res) => { /* ... */ });
+app.get("/api/test/code/:code", async (req, res) => { /* ... */ });
+app.post("/api/results", async (req, res) => { /* ... */ });
+app.get("/api/results/teacher/:teacherId", async (req, res) => { /* ... */ });
+app.get("/api/results/student/:studentId", async (req, res) => { /* ... */ });
+app.patch("/api/tests/:id/open", async (req, res) => { /* ... */ });
 
+// Главная страница
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
 
+// Запуск сервера
 app.listen(PORT, () => {
   console.log(`Сервер запущен: http://localhost:${PORT}`);
 });
