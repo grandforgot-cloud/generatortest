@@ -12,7 +12,6 @@
     "dotenv": "^16.6.1",
     "express": "^4.22.2",
     "jsonwebtoken": "^9.0.2",
-    "msnodesqlv8": "^5.2.0",
     "mssql": "^12.5.4",
     "mysql2": "^3.12.0"
   },
