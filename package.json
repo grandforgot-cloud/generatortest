@@ -1,28 +1,25 @@
 {
-  "name": "testai-node-sql",
+  "name": "my-site",
   "version": "1.0.0",
+  "description": "Portfolio app with SQL Server, messages, friends, achievements, statuses, notifications and likes",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "node server.js",
+    "test": "echo \"No tests\""
   },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "better-sqlite3": "^12.10.0",
-    "cors": "^2.8.6",
-    "dotenv": "^16.6.1",
-    "express": "^4.22.2",
-    "jsonwebtoken": "^9.0.2",
-    "mssql": "^12.5.4",
-    "mysql2": "^3.12.0",
-    "sqlite3": "^6.0.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.9"
-  },
-  "description": "Это версия сайта без PHP. HTML/CSS/JS остаётся в папке `public`, а Node.js связывает сайт с MySQL через API.",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.7",
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": "20.x"
+  }
 }
