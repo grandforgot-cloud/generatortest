@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TestAI — Платформа тестов</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#080b12;--bg2:#0d1220;--bg3:#111827;--bg4:#1a2235;--accent:#00e5ff;--adim:rgba(0,229,255,.13);--a2:#7c3aed;--a2dim:rgba(124,58,237,.16);--green:#00ff88;--gdim:rgba(0,255,136,.13);--red:#ff4560;--amber:#ffb800;--text:#e2e8f0;--t2:#94a3b8;--t3:#4a5568;--bdr:rgba(0,229,255,.12);--bdr2:rgba(0,229,255,.28);--r:12px;--mono:'Space Mono',monospace;--sans:'Syne',sans-serif}
+    *{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden}body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}.screen{display:none;position:relative;z-index:1}.screen.active{display:flex}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:8px;border:none;cursor:pointer;font-family:var(--sans);font-weight:700;transition:.15s;text-decoration:none}.btn:hover{transform:translateY(-1px);opacity:.88}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.btn-primary{background:var(--accent);color:#061018}.btn-purple{background:var(--a2);color:#fff}.btn-ghost{background:transparent;border:1px solid var(--bdr2);color:var(--t2)}.btn-danger{background:rgba(255,69,96,.14);border:1px solid rgba(255,69,96,.35);color:var(--red)}.btn-full{width:100%}input,textarea,select{width:100%;background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:11px 14px;color:var(--text);font:14px var(--sans);outline:none}input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--adim)}textarea{min-height:95px;resize:vertical}label{display:block;margin-bottom:8px;color:var(--t2);font:700 11px var(--mono);text-transform:uppercase;letter-spacing:1px}.form-group{margin-bottom:16px}.err-msg{color:var(--red);font:12px var(--mono);min-height:18px;margin-top:8px}.alert{padding:12px 15px;border-radius:8px;font-size:13px;margin-bottom:14px}.alert-info{background:var(--adim);border:1px solid var(--bdr2);color:var(--accent)}.alert-success{background:var(--gdim);border:1px solid rgba(0,255,136,.28);color:var(--green)}.alert-err{background:rgba(255,69,96,.13);border:1px solid rgba(255,69,96,.35);color:var(--red)}
+    #s-landing,#s-auth{min-height:100vh;align-items:center;justify-content:center;padding:24px;flex-direction:column}.logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}.logo-icon{width:44px;height:44px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:#061018;font-weight:900}.logo-text{font-size:30px;font-weight:900;color:#fff}.logo-text span{color:var(--accent)}.landing-sub{max-width:430px;text-align:center;color:var(--t2);line-height:1.6;margin-bottom:42px}.role-cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}.role-card{width:230px;background:var(--bg2);border:1px solid var(--bdr);border-radius:16px;padding:30px 24px;text-align:center;cursor:pointer;transition:.2s}.role-card:hover{background:var(--bg4);border-color:var(--bdr2);transform:translateY(-4px)}.role-card.teacher:hover{border-color:rgba(124,58,237,.55)}.role-icon{width:58px;height:58px;border-radius:14px;display:grid;place-items:center;margin:0 auto 16px;font-size:28px}.teacher .role-icon{background:var(--a2dim);border:1px solid rgba(124,58,237,.35)}.student .role-icon{background:var(--adim);border:1px solid var(--bdr2)}.role-label{font-weight:800;color:#fff;font-size:18px;margin-bottom:8px}.role-desc{font:12px/1.5 var(--mono);color:var(--t3)}.auth-box{width:100%;max-width:410px;background:var(--bg2);border:1px solid var(--bdr);border-radius:20px;padding:34px}.auth-back{color:var(--t3);font:13px var(--mono);cursor:pointer;margin-bottom:25px}.auth-title{font-size:24px;font-weight:900;color:#fff;margin-bottom:7px}.auth-sub{font:13px var(--mono);color:var(--t3);margin-bottom:20px}.auth-role-badge{display:inline-flex;padding:5px 12px;border-radius:999px;font:11px var(--mono);margin-bottom:18px}.badge-teacher{background:var(--a2dim);border:1px solid rgba(124,58,237,.35);color:#c4b5fd}.badge-student{background:var(--adim);border:1px solid var(--bdr2);color:var(--accent)}.auth-tabs{display:flex;background:var(--bg3);border-radius:9px;padding:4px;margin-bottom:24px}.auth-tab{flex:1;text-align:center;border-radius:7px;padding:9px;color:var(--t3);cursor:pointer;font-weight:700}.auth-tab.active{background:var(--bg4);color:#fff}
+    #s-app{min-height:100vh}.sidebar{width:240px;min-width:240px;background:var(--bg2);border-right:1px solid var(--bdr);display:flex;flex-direction:column}.s-logo{padding:22px 20px;border-bottom:1px solid var(--bdr);display:flex;gap:10px;align-items:center}.s-logo-icon{width:30px;height:30px;background:var(--accent);color:#061018;border-radius:7px;display:grid;place-items:center;font-weight:900}.s-logo-text{font-size:18px;font-weight:900;color:#fff}.s-logo-text span{color:var(--accent)}.s-user{padding:15px 17px;border-bottom:1px solid var(--bdr);display:flex;gap:10px;align-items:center}.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800}.av-teacher{background:var(--a2dim);border:1px solid rgba(124,58,237,.4);color:#c4b5fd}.av-student{background:var(--adim);border:1px solid var(--bdr2);color:var(--accent)}.s-user-name{font-size:13px;font-weight:800;color:#fff}.s-user-role{font:10px var(--mono);text-transform:uppercase;color:var(--t3);letter-spacing:1px}nav{padding:15px 10px;flex:1}.nav-label{font:10px var(--mono);letter-spacing:2px;color:var(--t3);text-transform:uppercase;padding:0 8px;margin:10px 0 8px}.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);cursor:pointer;font-weight:600;font-size:13px;margin-bottom:3px;border:1px solid transparent}.nav-item:hover{background:var(--bg4);color:#fff}.nav-item.active{background:var(--adim);border-color:var(--bdr2);color:var(--accent)}.nav-item.teacher-active{background:var(--a2dim);border-color:rgba(124,58,237,.35);color:#c4b5fd}.sidebar-footer{padding:13px 10px;border-top:1px solid var(--bdr)}.main{flex:1;display:flex;flex-direction:column;min-width:0}.topbar{height:62px;padding:0 26px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(8,11,18,.9);backdrop-filter:blur(10px);z-index:5}.topbar-title{font-size:20px;font-weight:900;color:#fff}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green)}.view{display:none;padding:26px}.view.active{display:block}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:22px}.card-title{font:700 11px var(--mono);letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:16px}.card-title.purple{color:#c4b5fd}.tags-row,.diff-row{display:flex;gap:8px;flex-wrap:wrap}.tag-btn,.diff-opt{padding:7px 13px;border:1px solid var(--bdr);border-radius:999px;color:var(--t2);font:11px var(--mono);cursor:pointer;background:transparent}.diff-opt{flex:1;text-align:center;border-radius:8px}.tag-btn.active,.diff-opt.active{border-color:var(--accent);background:var(--adim);color:var(--accent)}.empty-state{text-align:center;color:var(--t3);padding:45px 20px}.question-block{background:var(--bg3);border:1px solid var(--bdr);border-radius:10px;padding:18px;margin-bottom:12px}.q-num{font:10px var(--mono);color:var(--accent);letter-spacing:2px;margin-bottom:8px}.q-text{font-weight:800;color:#fff;margin-bottom:12px;line-height:1.45}.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opt{padding:10px 12px;border:1px solid var(--bdr);border-radius:8px;background:var(--bg2);color:var(--t2);cursor:pointer;font-size:13px}.opt:hover,.opt.selected{border-color:var(--accent);background:var(--adim);color:var(--accent)}.opt.correct{border-color:var(--green);background:var(--gdim);color:var(--green)}.opt.wrong{border-color:var(--red);background:rgba(255,69,96,.12);color:var(--red)}.hint-block{display:none;margin-top:10px;padding:10px 12px;border-left:3px solid var(--a2);background:var(--bg2);border-radius:0 8px 8px 0;color:var(--t2);font-size:12px}.hint-block.visible{display:block}.pub-test-card{display:flex;align-items:center;gap:14px;background:var(--bg3);border:1px solid var(--bdr);border-radius:10px;padding:16px;margin-bottom:10px}.pub-test-card:hover{background:var(--bg4);border-color:var(--bdr2)}.pub-info{flex:1}.pub-title{font-weight:800;color:#fff;margin-bottom:5px}.pub-meta{display:flex;gap:12px;flex-wrap:wrap;color:var(--t3);font:10px var(--mono)}.code-pill{display:inline-flex;padding:5px 11px;border-radius:999px;border:1px solid var(--bdr);font:12px var(--mono);color:var(--accent)}.result-table{width:100%;border-collapse:collapse}.result-table th,.result-table td{padding:10px 12px;border-bottom:1px solid var(--bdr);text-align:left}.result-table th{font:10px var(--mono);text-transform:uppercase;color:var(--t3)}.score-good{color:var(--green)}.score-mid{color:var(--amber)}.score-bad{color:var(--red)}.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat-card{text-align:center;background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:15px}.stat-val{font:800 26px var(--mono);color:var(--accent)}.stat-label{font:10px var(--mono);color:var(--t3);text-transform:uppercase}.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);z-index:99;align-items:center;justify-content:center}.modal-overlay.open{display:flex}.modal{background:var(--bg2);border:1px solid var(--bdr2);border-radius:16px;padding:30px;width:92%;max-width:460px;position:relative}.modal-close{position:absolute;right:14px;top:12px;background:none;border:0;color:var(--t3);font-size:18px;cursor:pointer}.share-code{font:800 42px var(--mono);letter-spacing:8px;text-align:center;color:var(--accent);padding:20px;background:var(--bg3);border:1px solid var(--bdr);border-radius:10px;margin:18px 0}.share-url{font:11px var(--mono);color:var(--t2);word-break:break-all;text-align:center}.toast{position:fixed;right:20px;bottom:20px;z-index:200;padding:12px 16px;border-radius:9px;background:var(--bg2);border:1px solid var(--bdr2);color:var(--text);font-size:13px}
+    @media(max-width:760px){.sidebar{width:64px;min-width:64px}.s-logo-text,.s-user-info,.nav-item span,.nav-label,.sidebar-footer span{display:none}.nav-item{justify-content:center}.grid2{grid-template-columns:1fr}.options-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <div class="screen active" id="s-landing">
+    <div class="logo"><div class="logo-icon">?</div><div class="logo-text">Test<span>AI</span></div></div>
+    <p class="landing-sub">Платформа для генерации, публикации и прохождения тестов с ролями преподавателя и ученика</p>
+    <div class="role-cards">
+      <div class="role-card teacher" onclick="startAuth('teacher')"><div class="role-icon">🎓</div><div class="role-label">Преподаватель</div><div class="role-desc">Создаёт тесты, публикует коды и смотрит результаты</div></div>
+      <div class="role-card student" onclick="startAuth('student')"><div class="role-icon">📚</div><div class="role-label">Ученик</div><div class="role-desc">Проходит тесты по коду и видит историю</div></div>
+    </div>
+  </div>
+
+  <div class="screen" id="s-auth">
+    <div class="auth-box">
+      <div class="auth-back" onclick="goLanding()">← Назад</div>
+      <div class="auth-title" id="auth-title">Вход</div>
+      <div class="auth-sub" id="auth-sub">Войди или создай аккаунт</div>
+      <div id="auth-badge"></div>
+      <div class="auth-tabs"><div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Войти</div><div class="auth-tab" id="tab-reg" onclick="switchTab('reg')">Регистрация</div></div>
+      <div id="auth-form-login">
+        <div class="form-group"><label>Логин</label><input id="login-user" type="text" placeholder="username"></div>
+        <div class="form-group"><label>Пароль</label><input id="login-pass" type="password" placeholder="••••••"></div>
+        <div class="err-msg" id="login-err"></div>
+        <button class="btn btn-primary btn-full" onclick="doLogin()">Войти →</button>
+      </div>
+      <div id="auth-form-reg" style="display:none">
+        <div class="form-group"><label>Имя</label><input id="reg-name" type="text" placeholder="Иван Иванов"></div>
+        <div class="form-group"><label>Логин</label><input id="reg-user" type="text" placeholder="username"></div>
+        <div class="form-group"><label>Пароль</label><input id="reg-pass" type="password" placeholder="Минимум 4 символа"></div>
+        <div class="err-msg" id="reg-err"></div>
+        <button class="btn btn-primary btn-full" onclick="doRegister()">Создать аккаунт →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="s-app">
+    <aside class="sidebar">
+      <div class="s-logo"><div class="s-logo-icon">?</div><div class="s-logo-text">Test<span>AI</span></div></div>
+      <div class="s-user"><div class="avatar" id="sb-avatar"></div><div class="s-user-info"><div class="s-user-name" id="sb-name"></div><div class="s-user-role" id="sb-role"></div></div></div>
+      <nav id="sb-nav"></nav>
+      <div class="sidebar-footer"><button class="btn btn-ghost btn-full" onclick="doLogout()"><span>Выйти</span>↗</button></div>
+    </aside>
+    <main class="main">
+      <div class="topbar"><div class="topbar-title" id="topbar-title"></div><div style="display:flex;gap:8px;align-items:center;font:11px var(--mono);color:var(--t3)"><div class="dot"></div><span>Node + SQL</span></div></div>
+
+      <section class="view" id="v-t-generate">
+        <div class="alert alert-err" id="no-key-alert" style="display:none">API-ключ Groq не задан — перейди в Настройки</div>
+        <div class="grid2">
+          <div class="card">
+            <div class="card-title purple">⚙ Параметры теста</div>
+            <div class="form-group"><label>Тема</label><input id="t-topic" type="text" placeholder="Например: история Казахстана"></div>
+            <div class="form-group"><label>Контекст необязательно</label><textarea id="t-context" placeholder="Вставь текст для генерации вопросов..."></textarea></div>
+            <div class="form-group"><label>Тип вопросов</label><div class="tags-row" id="t-qtype"><button class="tag-btn active" data-val="multiple_choice">С вариантами</button><button class="tag-btn" data-val="true_false">Да / Нет</button><button class="tag-btn" data-val="mixed">Смешанный</button></div></div>
+            <div class="form-group"><label>Сложность</label><div class="diff-row" id="t-diff"><button class="diff-opt" data-val="easy">Лёгкий</button><button class="diff-opt active" data-val="medium">Средний</button><button class="diff-opt" data-val="hard">Сложный</button></div></div>
+            <div class="form-group"><label>Вопросов</label><select id="t-count"><option>5</option><option selected>7</option><option>10</option><option>15</option></select></div>
+            <div class="form-group"><label>Язык</label><select id="t-lang"><option value="ru" selected>Русский</option><option value="en">English</option><option value="lv">Latviešu</option></select></div>
+            <button class="btn btn-purple btn-full" id="gen-btn" onclick="generateTest()">Сгенерировать</button>
+          </div>
+          <div class="card"><div class="card-title purple">👁 Предпросмотр</div><div id="gen-preview"><div class="empty-state">Тест появится здесь</div></div></div>
+        </div>
+        <div id="gen-result" style="display:none;margin-top:18px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px"><div id="gen-title" style="font-size:18px;font-weight:900;color:#fff"></div><div style="display:flex;gap:8px"><button class="btn btn-ghost" onclick="clearGen()">Очистить</button><button class="btn btn-purple" onclick="publishTest()">Опубликовать</button></div></div>
+          <div id="gen-qlist"></div>
+        </div>
+      </section>
+
+      <section class="view" id="v-t-tests"><div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:18px">Мои тесты</div><div id="t-tests-list"></div></section>
+      <section class="view" id="v-t-results"><div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:18px">Результаты учеников</div><div id="t-results-list"></div></section>
+      <section class="view" id="v-t-settings"><div class="card" style="max-width:560px"><div class="card-title purple">🔑 API-ключ Groq</div><div class="form-group"><label>Ключ</label><div style="display:flex;gap:8px"><input id="key-input" type="password" placeholder="gsk_..."><button class="btn btn-purple" onclick="saveKey()">Сохранить</button></div><div style="font:10px var(--mono);color:var(--t3);margin-top:7px">Ключ хранится в браузере преподавателя</div></div></div></section>
+
+      <section class="view" id="v-s-tests"><div id="s-avail-tests"></div></section>
+      <section class="view" id="v-s-take"><div id="s-take-content"><div class="empty-state">Выбери тест из списка</div></div></section>
+      <section class="view" id="v-s-history"><div class="stats-row"><div class="stat-card"><div class="stat-val" id="ss-total">0</div><div class="stat-label">Пройдено</div></div><div class="stat-card"><div class="stat-val" id="ss-avg">—</div><div class="stat-label">Средний балл</div></div><div class="stat-card"><div class="stat-val" id="ss-best">—</div><div class="stat-label">Лучший</div></div><div class="stat-card"><div class="stat-val" id="ss-topics">0</div><div class="stat-label">Тем</div></div></div><div id="s-hist-list"></div></section>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="result-modal"><div class="modal"><button class="modal-close" onclick="closeModal('result-modal')">✕</button><div style="text-align:center"><div style="font:800 46px var(--mono);color:var(--accent)" id="r-score">0/0</div><div style="font-size:20px;font-weight:900;color:#fff;margin:10px 0" id="r-title">Готово</div><div style="color:var(--t2);margin-bottom:20px" id="r-msg"></div><div style="display:flex;gap:8px;justify-content:center"><button class="btn btn-ghost" onclick="reviewAnswers()">Разбор</button><button class="btn btn-primary" onclick="retakeTest()">Снова</button></div></div></div></div>
+  <div class="modal-overlay" id="share-modal"><div class="modal"><button class="modal-close" onclick="closeModal('share-modal')">✕</button><div style="font-size:18px;font-weight:900;color:#fff">Тест опубликован!</div><div style="font:12px var(--mono);color:var(--t3);margin-top:6px">Передай код ученикам</div><div class="share-code" id="share-code">000000</div><div class="share-url" id="share-url"></div><div style="display:flex;gap:8px;margin-top:15px"><button class="btn btn-ghost btn-full" onclick="copyCode()">Копировать код</button><button class="btn btn-primary btn-full" onclick="copyLink()">Копировать ссылку</button></div></div></div>
+
+<script>
+const API = "";
+const DB = {
+  userKey: "tai_user_session",
+  saveSession(){ localStorage.setItem(this.userKey, JSON.stringify({user:S.user,role:S.role})); },
+  loadSession(){ try{return JSON.parse(localStorage.getItem(this.userKey)||"null");}catch(e){return null;} },
+  clearSession(){ localStorage.removeItem(this.userKey); }
+};
+let S = { role:null, user:null, currentTest:null, currentAnswers:{}, qtype:"multiple_choice", difficulty:"medium", showHints:true, publishedCode:null };
+const $ = id => document.getElementById(id);
+
+function toast(msg){ const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500); }
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); }
+function goLanding(){ show('s-landing'); }
+function closeModal(id){ $(id).classList.remove('open'); }
+function startAuth(role){ S.role=role; show('s-auth'); const isT=role==='teacher'; $('auth-title').textContent=isT?'Преподаватель':'Ученик'; $('auth-sub').textContent=isT?'Войди или создай аккаунт преподавателя':'Войди или создай аккаунт ученика'; $('auth-badge').innerHTML=`<div class="auth-role-badge ${isT?'badge-teacher':'badge-student'}">${isT?'🎓 Преподаватель':'📚 Ученик'}</div>`; switchTab('login'); }
+function switchTab(t){ $('tab-login').classList.toggle('active',t==='login'); $('tab-reg').classList.toggle('active',t==='reg'); $('auth-form-login').style.display=t==='login'?'block':'none'; $('auth-form-reg').style.display=t==='reg'?'block':'none'; $('login-err').textContent=''; $('reg-err').textContent=''; }
+async function api(path, options={}){ const res=await fetch(API+path,{headers:{'Content-Type':'application/json',...(options.headers||{})},...options}); let data=null; try{data=await res.json();}catch(e){} if(!res.ok) throw new Error(data?.message||'Ошибка сервера'); return data; }
+
+async function doLogin(){
+  const username=$('login-user').value.trim(), password=$('login-pass').value, err=$('login-err'); err.textContent='';
+  try{ const user=await api('/api/login',{method:'POST',body:JSON.stringify({username,password,role:S.role})}); S.user=user; S.role=user.role; DB.saveSession(); enterApp(); }
+  catch(e){ err.textContent=e.message; }
+}
+async function doRegister(){
+  const name=$('reg-name').value.trim(), username=$('reg-user').value.trim(), password=$('reg-pass').value, err=$('reg-err'); err.textContent='';
+  if(password.length<4){err.textContent='Пароль минимум 4 символа';return;}
+  try{ const user=await api('/api/register',{method:'POST',body:JSON.stringify({name,username,password,role:S.role})}); S.user=user; S.role=user.role; DB.saveSession(); enterApp(); }
+  catch(e){ err.textContent=e.message; }
+}
+function doLogout(){ S={role:null,user:null,currentTest:null,currentAnswers:{},qtype:'multiple_choice',difficulty:'medium',showHints:true,publishedCode:null}; DB.clearSession(); goLanding(); }
+
+function enterApp(){
+  show('s-app'); const isT=S.role==='teacher';
+  $('sb-avatar').textContent=(S.user?.name||'?')[0].toUpperCase(); $('sb-avatar').className='avatar '+(isT?'av-teacher':'av-student');
+  $('sb-name').textContent=S.user?.name||'—'; $('sb-role').textContent=isT?'Преподаватель':'Ученик';
+  if(isT){ buildTeacherNav(); initTeacherTags(); const key=localStorage.getItem('tai_groq_key_'+S.user.id)||''; $('no-key-alert').style.display=key?'none':'block'; $('key-input').value=key; showView('v-t-generate'); }
+  else{ buildStudentNav(); showView('v-s-tests'); renderStudentTests(); checkStudentInvite(); }
+}
+function buildTeacherNav(){ $('sb-nav').innerHTML=`<div class="nav-label">Инструменты</div><div class="nav-item" onclick="showView('v-t-generate')"><span>Генерация</span></div><div class="nav-item" onclick="showView('v-t-tests');renderTeacherTests()"><span>Мои тесты</span></div><div class="nav-item" onclick="showView('v-t-results');renderTeacherResults()"><span>Результаты</span></div><div class="nav-label">Прочее</div><div class="nav-item" onclick="showView('v-t-settings')"><span>Настройки</span></div>`; }
+function buildStudentNav(){ $('sb-nav').innerHTML=`<div class="nav-label">Обучение</div><div class="nav-item" onclick="showView('v-s-tests');renderStudentTests()"><span>Тесты</span></div><div class="nav-item" onclick="showView('v-s-history');renderStudentHistory()"><span>История</span></div>`; }
+const viewTitles={'v-t-generate':'Генерация теста','v-t-tests':'Мои тесты','v-t-results':'Результаты учеников','v-t-settings':'Настройки','v-s-tests':'Доступные тесты','v-s-take':'Прохождение теста','v-s-history':'Моя история'};
+function showView(id){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); $(id).classList.add('active'); $('topbar-title').textContent=viewTitles[id]||''; document.querySelectorAll('.nav-item').forEach(n=>{n.classList.remove('active','teacher-active'); if(n.getAttribute('onclick')?.includes(id)) n.classList.add(S.role==='teacher'?'teacher-active':'active');}); }
+function initTeacherTags(){ document.querySelectorAll('#t-qtype .tag-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('#t-qtype .tag-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');S.qtype=b.dataset.val}); document.querySelectorAll('#t-diff .diff-opt').forEach(b=>b.onclick=()=>{document.querySelectorAll('#t-diff .diff-opt').forEach(x=>x.classList.remove('active'));b.classList.add('active');S.difficulty=b.dataset.val}); }
+function saveKey(){ const k=$('key-input').value.trim(); if(!k){toast('Введи Groq API-ключ');return;} localStorage.setItem('tai_groq_key_'+S.user.id,k); $('no-key-alert').style.display='none'; toast('Ключ сохранён'); }
+
+async function generateTest(){
+  const key=localStorage.getItem('tai_groq_key_'+S.user.id)||''; if(!key){toast('Нужен API-ключ Groq');showView('v-t-settings');return;}
+  const topic=$('t-topic').value.trim(), context=$('t-context').value.trim(), count=$('t-count').value, lang=$('t-lang').value; if(!topic){toast('Введи тему');return;}
+  const btn=$('gen-btn'); btn.disabled=true; $('gen-preview').innerHTML='<div class="alert alert-info">Генерирую тест через сервер...</div>'; $('gen-result').style.display='none';
+  try{
+    const parsed=await api('/api/generate-test',{method:'POST',body:JSON.stringify({apiKey:key,topic,context,count,language:lang,difficulty:S.difficulty,qtype:S.qtype})});
+    if(!parsed.questions || !Array.isArray(parsed.questions)) throw new Error('Groq вернул неверный формат');
+    S.currentTest=parsed; S.currentAnswers={}; $('gen-result').style.display='block'; $('gen-title').textContent=parsed.title||parsed.topic||topic; renderQList('gen-qlist',parsed,false); $('gen-preview').innerHTML='<div class="alert alert-success">Тест успешно сгенерирован</div>';
+  }catch(e){ $('gen-preview').innerHTML=`<div class="alert alert-err">Ошибка: ${e.message}</div>`; }
+  btn.disabled=false;
+}
+function renderQList(containerId,test,interactive){ const letters=['А','Б','В','Г','Д']; $(containerId).innerHTML=(test.questions||[]).map((q,i)=>`<div class="question-block"><div class="q-num">// ВОПРОС ${String(i+1).padStart(2,'0')}</div><div class="q-text">${esc(q.text)}</div><div class="options-grid" id="opts-${i}">${(q.options||[]).map((o,j)=>`<div class="opt" id="opt-${i}-${j}" ${interactive?`onclick="selectOpt(${i},${j})"`:''}><b>${letters[j]||j+1}.</b> ${esc(o)}</div>`).join('')}</div><div class="hint-block" id="hint-${i}">${esc(q.hint||'')}</div></div>`).join(''); }
+function clearGen(){ S.currentTest=null; $('gen-result').style.display='none'; $('gen-preview').innerHTML='<div class="empty-state">Тест появится здесь</div>'; }
+async function publishTest(){
+  if(!S.currentTest){toast('Сначала сгенерируй тест');return;}
+  try{ const r=await api('/api/tests',{method:'POST',body:JSON.stringify({teacherId:S.user.id,title:S.currentTest.title||S.currentTest.topic||'Тест',topic:S.currentTest.topic||$('t-topic').value.trim(),questions:S.currentTest.questions})}); S.publishedCode=r.code; $('share-code').textContent=r.code; $('share-url').textContent=`${location.origin}${location.pathname}?join=${r.code}`; $('share-modal').classList.add('open'); }
+  catch(e){toast(e.message);}
+}
+function copyCode(){ navigator.clipboard.writeText($('share-code').textContent); toast('Код скопирован'); }
+function copyLink(){ navigator.clipboard.writeText($('share-url').textContent); toast('Ссылка скопирована'); }
+
+async function renderTeacherTests(){
+  const list=$('t-tests-list'); list.innerHTML='<div class="alert alert-info">Загрузка...</div>';
+  try{ const tests=await api('/api/my-tests/'+S.user.id); if(!tests.length){list.innerHTML='<div class="empty-state">Нет опубликованных тестов</div>';return;} list.innerHTML=tests.map(t=>`<div class="pub-test-card"><div class="pub-info"><div class="pub-title">${esc(t.title)}</div><div class="pub-meta"><span>Код: ${t.code}</span><span>Вопросов: ${t.questionCount||0}</span><span>${fmtDate(t.created_at)}</span></div></div><div class="code-pill">${t.code}</div><button class="btn btn-ghost" onclick="toggleTestOpen(${t.id},${t.is_open?0:1})">${t.is_open?'Закрыть':'Открыть'}</button></div>`).join(''); }
+  catch(e){list.innerHTML=`<div class="alert alert-err">${e.message}</div>`;}
+}
+async function toggleTestOpen(id,isOpen){ try{await api('/api/tests/'+id+'/open',{method:'PATCH',body:JSON.stringify({isOpen:!!isOpen})});renderTeacherTests();}catch(e){toast(e.message);} }
+async function renderTeacherResults(){
+  const cont=$('t-results-list'); cont.innerHTML='<div class="alert alert-info">Загрузка...</div>';
+  try{ const rs=await api('/api/results/teacher/'+S.user.id); if(!rs.length){cont.innerHTML='<div class="empty-state">Ученики ещё не проходили тесты</div>';return;} cont.innerHTML=`<div class="card"><table class="result-table"><thead><tr><th>Тест</th><th>Ученик</th><th>Дата</th><th>Результат</th></tr></thead><tbody>${rs.map(r=>`<tr><td>${esc(r.testTitle)}</td><td>${esc(r.studentName)}</td><td>${fmtDate(r.created_at)}</td><td class="${r.percent_result>=80?'score-good':r.percent_result>=50?'score-mid':'score-bad'}">${r.score}/${r.total} (${r.percent_result}%)</td></tr>`).join('')}</tbody></table></div>`; }
+  catch(e){cont.innerHTML=`<div class="alert alert-err">${e.message}</div>`;}
+}
+
+async function renderStudentTests(){
+  const cont=$('s-avail-tests'); cont.innerHTML=`<div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:14px">Доступные тесты</div><div style="display:flex;gap:8px;margin-bottom:18px"><input id="code-input" placeholder="Код теста"><button class="btn btn-primary" onclick="joinByCode()">Войти</button></div><div class="alert alert-info">Загрузка...</div>`;
+  try{ const tests=await api('/api/tests'); const top=cont.children[0].outerHTML+cont.children[1].outerHTML; if(!tests.length){cont.innerHTML=top+'<div class="empty-state">Нет открытых тестов</div>';return;} cont.innerHTML=top+tests.map(t=>`<div class="pub-test-card"><div class="pub-info"><div class="pub-title">${esc(t.title)}</div><div class="pub-meta"><span>Преподаватель: ${esc(t.authorName)}</span><span>Код: ${t.code}</span><span>Вопросов: ${t.questionCount||0}</span></div></div><button class="btn btn-primary" onclick="startStudentTest(${t.id})">Начать</button></div>`).join(''); }
+  catch(e){cont.innerHTML=`<div class="alert alert-err">${e.message}</div>`;}
+}
+async function joinByCode(){ const code=$('code-input').value.trim(); if(!code){toast('Введи код');return;} try{ const tests=await api('/api/tests'); const t=tests.find(x=>String(x.code)===code); if(!t){toast('Тест не найден или закрыт');return;} startStudentTest(t.id); }catch(e){toast(e.message);} }
+function checkStudentInvite(){ const code=new URLSearchParams(location.search).get('join'); if(code) setTimeout(async()=>{ try{const tests=await api('/api/tests'); const t=tests.find(x=>String(x.code)===code); if(t) startStudentTest(t.id);}catch(e){} },500); }
+async function startStudentTest(id){ try{ const test=await api('/api/test/'+id); S.currentTest=test; S.currentAnswers={}; showView('v-s-take'); renderStudentTestUI(test); }catch(e){toast(e.message);} }
+function renderStudentTestUI(test){ $('s-take-content').innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:18px"><div><div style="font-size:19px;font-weight:900;color:#fff">${esc(test.title)}</div><div style="font:11px var(--mono);color:var(--t3);margin-top:4px">${esc(test.authorName||'')} · ${test.questions.length} вопросов</div></div><div id="s-prog" style="font:12px var(--mono);color:var(--accent)">0/${test.questions.length}</div></div><div id="student-questions"></div><div style="text-align:center;margin-top:22px"><button class="btn btn-primary" onclick="submitTest()">Завершить тест</button></div>`; renderQList('student-questions',test,true); }
+function selectOpt(qi,oi){ S.currentAnswers[qi]=oi; document.querySelectorAll(`#opts-${qi} .opt`).forEach(o=>o.classList.remove('selected')); $(`opt-${qi}-${oi}`)?.classList.add('selected'); if($('s-prog')) $('s-prog').textContent=Object.keys(S.currentAnswers).length+'/'+S.currentTest.questions.length; }
+async function submitTest(){
+  const test=S.currentTest; let score=0; const answers=[]; test.questions.forEach((q,i)=>{ const selected=S.currentAnswers[i]; const ok=selected===q.correct; if(ok)score++; answers.push({questionId:q.id,selectedOption:selected??-1,isCorrect:ok}); }); const total=test.questions.length, percentResult=Math.round(score/total*100);
+  try{ await api('/api/results',{method:'POST',body:JSON.stringify({testId:test.id,studentId:S.user.id,score,total,percentResult,answers})}); }catch(e){toast('Результат не сохранён: '+e.message);}
+  $('r-score').textContent=`${score}/${total}`; $('r-title').textContent=percentResult>=80?'Отлично!':percentResult>=50?'Неплохо':'Попробуй ещё'; $('r-msg').textContent=`${percentResult}% правильных ответов`; $('result-modal').classList.add('open');
+}
+function reviewAnswers(){ closeModal('result-modal'); S.currentTest.questions.forEach((q,i)=>{ document.querySelectorAll(`#opts-${i} .opt`).forEach((o,j)=>{o.classList.remove('selected'); if(j===q.correct)o.classList.add('correct'); else if(j===S.currentAnswers[i])o.classList.add('wrong'); o.style.pointerEvents='none';}); $(`hint-${i}`)?.classList.add('visible'); }); }
+function retakeTest(){ closeModal('result-modal'); S.currentAnswers={}; renderStudentTestUI(S.currentTest); }
+async function renderStudentHistory(){
+  const cont=$('s-hist-list'); cont.innerHTML='<div class="alert alert-info">Загрузка...</div>';
+  try{ const rs=await api('/api/results/student/'+S.user.id); if(!rs.length){$('ss-total').textContent='0';$('ss-avg').textContent='—';$('ss-best').textContent='—';$('ss-topics').textContent='0';cont.innerHTML='<div class="empty-state">История пустая</div>';return;} const avg=Math.round(rs.reduce((s,r)=>s+r.percent_result,0)/rs.length), best=Math.max(...rs.map(r=>r.percent_result)); $('ss-total').textContent=rs.length; $('ss-avg').textContent=avg+'%'; $('ss-best').textContent=best+'%'; $('ss-topics').textContent=new Set(rs.map(r=>r.testTitle)).size; cont.innerHTML=`<div class="card"><table class="result-table"><thead><tr><th>Тест</th><th>Дата</th><th>Результат</th></tr></thead><tbody>${rs.map(r=>`<tr><td>${esc(r.testTitle)}</td><td>${fmtDate(r.created_at)}</td><td class="${r.percent_result>=80?'score-good':r.percent_result>=50?'score-mid':'score-bad'}">${r.score}/${r.total} (${r.percent_result}%)</td></tr>`).join('')}</tbody></table></div>`; }
+  catch(e){cont.innerHTML=`<div class="alert alert-err">${e.message}</div>`;}
+}
+function esc(s){ return String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function fmtDate(d){ if(!d)return '—'; return new Date(d).toLocaleDateString('ru-RU'); }
+(function init(){ const sess=DB.loadSession(); if(sess?.user?.id){S.user=sess.user;S.role=sess.role;enterApp();} })();
+</script>
+</body>
+</html>
